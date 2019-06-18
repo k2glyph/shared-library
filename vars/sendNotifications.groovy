@@ -24,7 +24,6 @@ def call (String buildStatus = 'Started') {
     if(color == 'RED' ){
         emailext(
             attachLog: true,
-            attachmentsPattern: 'pipeline.log',
             body: details,
             replyTo: '$DEFAULT_REPLYTO',
             subject: subject,
@@ -32,15 +31,12 @@ def call (String buildStatus = 'Started') {
     }else if(color == 'GREEN') {
         emailext(
             attachLog: true,
-            attachmentsPattern: 'pipeline.log',
             body: '$BUILD_URL\n\n$FAILED_TESTS',
             replyTo: '$DEFAULT_REPLYTO',
             subject: '$DEFAULT_SUBJECT',
             to: '$DEFAULT_RECIPIENTS')
     }else {
         emailext(
-            attachLog: true,
-            attachmentsPattern: 'pipeline.log',
             body: details,
             replyTo: '$DEFAULT_REPLYTO',
             subject: subject,
