@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call (String buildStatus = 'Started') {
+def call (String buildStatus = 'Started', String emailTo) {
     // Default values
     def color = 'RED'
     def colorCode = '#FF0000'
@@ -8,7 +8,7 @@ def call (String buildStatus = 'Started') {
     def summary = "${subject} (${env.BUILD_URL})"
     def details = """<p>${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
         <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>"""
-
+    def to=emailTo ?:   '$DEFAULT_RECIPIENTS'
     // Override default values based on build status 
     if (buildStatus == 'STARTED') {
         color = 'YELLOW'
@@ -27,13 +27,13 @@ def call (String buildStatus = 'Started') {
             body: details,
             replyTo: '$DEFAULT_REPLYTO',
             subject: subject,
-            to: '$DEFAULT_RECIPIENTS')
+            to: to)
     }else {
         emailext(
             body: details,
             replyTo: '$DEFAULT_REPLYTO',
             subject: subject,
-            to: '$DEFAULT_RECIPIENTS')
+            to: to)
     }
     
 }
