@@ -24,11 +24,30 @@ def call (String buildStatus = 'Started') {
     // // Send notifications
     // slackSend (color: colorCode, message: summary)
     // hipchatSend (color: color, notify: true, message: summary)
-
-    emailext (
-        to: 'jenkins@esewa.com.np',
-        subject: subject,
-        body: details,
-        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
-        )
+    if(color == 'RED' ){
+        emailext(
+            attachLog: true,
+            attachmentsPattern: 'pipeline.log',
+            body: details,
+            replyTo: '$DEFAULT_REPLYTO',
+            subject: subject,
+            to: '$DEFAULT_RECIPIENTS')
+    }else if(color == 'GREEN') {
+        emailext(
+            attachLog: true,
+            attachmentsPattern: 'pipeline.log',
+            body: '$BUILD_URL\n\n$FAILED_TESTS',
+            replyTo: '$DEFAULT_REPLYTO',
+            subject: '$DEFAULT_SUBJECT',
+            to: '$DEFAULT_RECIPIENTS')
+    }else {
+        emailext(
+            attachLog: true,
+            attachmentsPattern: 'pipeline.log',
+            body: details,
+            replyTo: '$DEFAULT_REPLYTO',
+            subject: subject,
+            to: '$DEFAULT_RECIPIENTS')
+    }
+    
 }
