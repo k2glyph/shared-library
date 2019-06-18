@@ -1,10 +1,10 @@
 #!/usr/bin/env groovy
 
-def call (String buildStatus = 'Started', String emailTo) {
+def call (String buildStatus = 'Started', String emailTo, String title) {
     // Default values
     def color = 'RED'
     def colorCode = '#FF0000'
-    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'${title}"
     def summary = "${subject} (${env.BUILD_URL})"
     def details = """<p>${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
         <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>"""
