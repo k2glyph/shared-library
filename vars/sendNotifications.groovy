@@ -1,9 +1,6 @@
 #!/usr/bin/env groovy
 
 def call (String buildStatus = 'Started') {
-     // build status of null means SUCCESS
-    buildStatus =  buildStatus ?: 'SUCCESS'
-
     // Default values
     def color = 'RED'
     def colorCode = '#FF0000'
