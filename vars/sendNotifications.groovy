@@ -1,8 +1,8 @@
 #!/usr/bin/env groovy
 
 def call (String buildStatus = 'Started') {
-     // build status of null means successful
-    buildStatus =  buildStatus ?: 'SUCCESSFUL'
+     // build status of null means SUCCESS
+    buildStatus =  buildStatus ?: 'SUCCESS'
 
     // Default values
     def color = 'RED'
@@ -16,7 +16,7 @@ def call (String buildStatus = 'Started') {
     if (buildStatus == 'STARTED') {
         color = 'YELLOW'
         colorCode = '#FFFF00'
-    } else if (buildStatus == 'SUCCESSFUL') {
+    } else if (buildStatus == 'SUCCESS') {
         color = 'GREEN'
         colorCode = '#00FF00'
     }
