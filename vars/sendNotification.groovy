@@ -1,19 +1,19 @@
 #!/usr/bin/env groovy
 
-def call (String buildStatus = 'Started', String emailTo, String title) {
+def call (Map param) {
     // Default values
     def color = 'RED'
     def colorCode = '#FF0000'
-    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'${title}"
+    def subject = "${param.status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'${param.title}"
     def summary = "${subject} (${env.BUILD_URL})"
-    def details = """<p>${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+    def details = """<p>${param.status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
         <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>"""
-    def to=emailTo ?:   '$DEFAULT_RECIPIENTS'
+    def to="${env.DEFAULT_RECIPIENTS},${param.to}"
     // Override default values based on build status 
-    if (buildStatus == 'STARTED') {
+    if (param.status == 'STARTED') {
         color = 'YELLOW'
         colorCode = '#FFFF00'
-    } else if (buildStatus == 'SUCCESS') {
+    } else if (param.status == 'SUCCESS') {
         color = 'GREEN'
         colorCode = '#00FF00'
     }
