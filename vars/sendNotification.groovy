@@ -19,7 +19,7 @@ def call (Map param) {
     }
 
     // // Send notifications
-    // slackSend (color: colorCode, message: summary)
+    slackSend (color: colorCode, message: summary)
     // hipchatSend (color: color, notify: true, message: summary)
     if(color == 'RED' || color == 'GREEN' ){
         emailext(
