@@ -4,7 +4,7 @@ def call (Map param) {
     // Default values
     def color = 'RED'
     def colorCode = '#FF0000'
-    def subject = "${param.status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'${param.title}"
+    def subject = "${param.status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'${param.title?:""}"
     def summary = "${subject} (${env.BUILD_URL})"
     def details = """<p>${param.status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
         <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>"""
