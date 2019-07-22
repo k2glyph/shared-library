@@ -2,5 +2,5 @@
 
 def call(Map param) {
 	param.remote.allowAnyHosts = true
-	sshCommand remote: remote, command: "${param.command}"
+	sshCommand remote: param.remote, command: "${param.command}"
 }
