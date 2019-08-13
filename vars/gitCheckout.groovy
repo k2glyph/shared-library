@@ -1,3 +1,5 @@
+#!/usr/bin/env groovy
+
 def call() {
     if (env.gitlabMergeRequestId) {
         sh "echo 'Merge request detected. Merging...'"
