@@ -13,6 +13,8 @@ def call (Map param) {
     def details = """<p>${param.status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
         <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>"""
     def to='$DEFAULT_RECIPIENTS'+",${param.to?:""}"
+    
+    
     // Override default values based on build status 
     if (param.status == 'STARTED') {
         color = 'YELLOW'
@@ -20,10 +22,19 @@ def call (Map param) {
     } else if (param.status == 'SUCCESS') {
         color = 'GREEN'
         colorCode = '#00FF00'
+        
     }
 
     // // Send notifications
     if(slack_notification==true) {
+        summary +="\n*ChangeLog*\n"
+        def changeLogSets = currentBuild.rawBuild.changeSets
+        for (int i = 0; i < changeLogSets.size(); i++) {
+            def entries = changeLogSets[i].items
+            for (int j = 0; j < entries.length; j++) {
+               summary+="\n${entries[j].author}: ${entries[j].msg}"
+            }
+        }
         if(slack_channel) {
             slackSend (channel:slack_channel, color: colorCode, message: summary)
         }else {
