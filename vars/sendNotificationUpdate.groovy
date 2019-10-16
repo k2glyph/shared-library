@@ -24,7 +24,7 @@ def call (Map param) {
 
     // // Send notifications
     if(slack_notification==true) {
-        if(slack_channel) {
+        if(slack_channel==false) {
             slackSend (color: colorCode, message: summary)
         }else {
             slackSend (channel: color: colorCode, message: summary)
