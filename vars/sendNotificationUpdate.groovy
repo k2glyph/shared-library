@@ -28,10 +28,12 @@ def call (Map param) {
 
     // // Send notifications
     if(slack_notification==true) {
+        summary +="\n *ChangeLogs* \n"
+        summary +=changes
         if(slack_channel) {
-            slackSend (channel:slack_channel, color: colorCode, message: summary, changes:changes )
+            slackSend (channel:slack_channel, color: colorCode, message: summary)
         }else {
-            slackSend (color: colorCode, message: summary, changes:changes)
+            slackSend (color: colorCode, message: summary)
         }
         
     }
