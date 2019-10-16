@@ -31,7 +31,7 @@ def call (Map param) {
         if(slack_channel) {
             slackSend (channel:slack_channel, color: colorCode, message: summary, changes:changes )
         }else {
-            slackSend (color: colorCode, message: summary)
+            slackSend (color: colorCode, message: summary, changes:changes)
         }
         
     }
