@@ -7,6 +7,7 @@ def call (Map param) {
     def slack_notification=param.slack?:true
     def email_notification=param.email?:true
     def slack_channel=param.channel
+    def changes=param.changes?:"No Changes"
     def colorCode = '#FF0000'
     def subject = "${param.status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'${param.title?:""}"
     def summary = "${subject} (${env.BUILD_URL})"
@@ -27,17 +28,8 @@ def call (Map param) {
 
     // // Send notifications
     if(slack_notification==true) {
-        summary +="\n*ChangeLog*\n"
-        def changeLogSets = currentBuild.rawBuild.changeSets
-        for (int i = 0; i < changeLogSets.size(); i++) {
-            def entries = changeLogSets[i].items
-            for (int j = 0; j < entries.length; j++) {
-               
-               summary+="\n${entries[j].msg}"
-            }
-        }
         if(slack_channel) {
-            slackSend (channel:slack_channel, color: colorCode, message: summary)
+            slackSend (channel:slack_channel, color: colorCode, message: summary, changes:changes )
         }else {
             slackSend (color: colorCode, message: summary)
         }
