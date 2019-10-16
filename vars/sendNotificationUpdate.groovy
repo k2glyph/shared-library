@@ -6,7 +6,7 @@ def call (Map param) {
     def color = 'RED'
     def slack_notification=param.slack?:true
     def email_notification=param.email?:true
-    def slack_channel=param.channel?:false
+    def slack_channel=param.channel
     def colorCode = '#FF0000'
     def subject = "${param.status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'${param.title?:""}"
     def summary = "${subject} (${env.BUILD_URL})"
@@ -24,10 +24,10 @@ def call (Map param) {
 
     // // Send notifications
     if(slack_notification==true) {
-        if(slack_channel==false) {
-            slackSend (color: colorCode, message: summary)
+        if(slack_channel) {
+            slackSend (channel:slack_channel, color: colorCode, message: summary)
         }else {
-            slackSend (channel: color: colorCode, message: summary)
+            slackSend (color: colorCode, message: summary)
         }
         
     }
