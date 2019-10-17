@@ -12,7 +12,10 @@ def call() {
         }
     }
     if (!changeString) {
-        changeString = " - No new changes"
+        changeString = sh (script: "git log -1 ", returnStdout: true)
+    }
+    if(!changeString) {
+         changeString = " - No new changes"
     }
     return changeString
  }
