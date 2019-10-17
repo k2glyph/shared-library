@@ -29,7 +29,7 @@ def call (Map param) {
     // // Send notifications
     if(slack_notification==true) {
         summary +="\n *ChangeLogs* \n"
-        summary +=getChangeLog()
+        summary +=changes
         if(slack_channel) {
             slackSend (channel:slack_channel, color: colorCode, message: summary)
         }else {
