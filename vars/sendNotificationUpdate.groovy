@@ -31,7 +31,7 @@ def call (Map param) {
 
     // // Send notifications
     if(slack_notification==true) {
-        if(disable_changelog==true) {
+        if(disable_changelog==false) {
             summary +="\n *ChangeLogs* \n"
             summary +=changes
         }   
