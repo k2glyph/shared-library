@@ -6,6 +6,7 @@ def call (Map param) {
     def color = 'RED'
     def slack_notification=param.slack?:true
     def email_notification=param.email?:true
+    def disable_changelog=param.nochange?:false
     def slack_channel=param.channel
     def changes=param.changes?:"No Changes"
     def colorCode = '#FF0000'
@@ -30,8 +31,10 @@ def call (Map param) {
 
     // // Send notifications
     if(slack_notification==true) {
-        summary +="\n *ChangeLogs* \n"
-        summary +=changes
+        if(disable_changelog==true) {
+            summary +="\n *ChangeLogs* \n"
+            summary +=changes
+        }   
         if(slack_channel) {
             slackSend (channel:slack_channel, color: colorCode, message: summary)
         }else {
