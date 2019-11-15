@@ -9,6 +9,6 @@ def call(Map param) {
   }
   if(param.rollback=="image") {
     def image=sh(returnStdout: true, script: "kubectl rollout history -n ${param.namespace} deployment ${param.deployment} --revision=\$(kubectl rollout history deployment ${param.deployment} -n ${param.namespace} | grep -v \"^\$\" | tail -n 2 | head -n 1 | awk '{print \$1}') | grep \"${param.fixtag}\" | cut -d \":\" -f3")
-    sh "kubectl -n ${param.namespace} set image deployment.v1.apps/${param.deployment} ${param.deployment}=${param.fixtag}:${image}"
+    sh "kubectl -n ${param.namespace} set image deployment.v1.apps/${param.deployment} ${param.deployment_name}=${param.fixtag}:${image}"
   }
 }
