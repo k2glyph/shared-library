@@ -5,4 +5,5 @@ def call(Map param) {
        sh("gcloud auth activate-service-account --key-file=${credential}")
        sh("gcloud container clusters get-credentials ${param.cluster_name} --zone ${param.zone_name} --project ${param.project_name}")
      }
+   }
 }
