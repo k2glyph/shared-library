@@ -9,16 +9,19 @@ def call(Map param) {
 
      if (param.type == 'MIGRATE') {
         println("Migration job running")
+        if(param.org) {
+            sh """
+               export SECRET_NAME=\$(kubectl -n ${param.namespace} get secrets -l org=${param.org} -o jsonpath="{.items[0].metadata.name}")
+            """           
+        }else {
+           sh """
+               export SECRET_NAME=\$(kubectl -n ${param.namespace} get secrets | grep ${param.grep} | awk '{print \$1}')
+           """
+        }
         sh """
-           if [ -z "${param.org}" ]
-           then
-              export SECRET_NAME=\$(kubectl -n ${param.namespace} get secrets -l org=${param.org} -o jsonpath="{.items[0].metadata.name}")
-           else
-              export SECRET_NAME=\$(kubectl -n ${param.namespace} get secrets | grep ${param.grep} | awk '{print \$1}')
-           fi
            export CI_COMMIT_SHA=${param.version}
            envsubst < ci/${param.job}.yaml | kubectl -n ${param.namespace} create -f -
-       """
+        """
        return
      }
      script {
