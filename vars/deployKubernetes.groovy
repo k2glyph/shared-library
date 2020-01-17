@@ -11,7 +11,7 @@ def call(Map param) {
         println("Migration job running")
         def secret_name=""   
         if(param.org) {
-          secret_name=sh(returnStdout: true, script: "kubectl -n ${param.namespace} get secrets -l org=${param.org} -o jsonpath=\"{.items[0].metadata.name}\"")
+           secret_name=sh(returnStdout: true, script: "kubectl -n ${param.namespace} get secrets --sort-by=.metadata.creationTimestamp -l org=${param.org} | tail -1 | awk '{print \$1}'")
         }else {
           secret_name=sh(returnStdout: true, script: "kubectl -n ${param.namespace} get secrets | grep ${param.grep} | awk '{print \$1}'")
         }
