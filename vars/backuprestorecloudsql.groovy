@@ -1,7 +1,7 @@
 def call(Map param) {
   if(param.backup=="true") {
     println "Requesting gcloud to create backup"
-    sh "gcloud sql backups create --instance=${param.instance} --project ${param.project} --description=${param.description}"
+    sh "gcloud sql backups create --instance=${param.instance} --project ${param.project} --description=\"${param.description}\""
    }
    if(param.restore=="true") {
       println "Requesting gcloud to restore from latest backup"
