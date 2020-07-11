@@ -11,6 +11,7 @@ def call(Map param) {
            export DB_HOST=${param.db_host}
            export SECRET_NAME=${secret_name}
            export CI_COMMIT_SHA=${param.version}
+           export KUBECONFIG=${env.KUBECONFIG}
            envsubst '\${SECRET_NAME},\${CI_COMMIT_SHA},\${DB_HOST}' < ci/${param.job}.yaml | kubectl -n ${param.namespace} create -f -
         """
        return
