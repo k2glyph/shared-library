@@ -11,6 +11,9 @@ def call (Map param) {
     def changes=param.changes?:"No Changes"
     def colorCode = '#FF0000'
     def subject = "${param.status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'${param.title?:""}"
+    if(param.status =='APPROVAL') {
+        subject = "Waiting for ${param.status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'${param.title?:""}"
+    }
     def summary = "${subject} (${env.BUILD_URL})"
     def details = """<p>${param.status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
         <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>"""
@@ -27,6 +30,10 @@ def call (Map param) {
     } else if(param.status =='ABORTED') {
         color="GRAY"
         colorCode="#DCDCDC"
+    } else if(param.status =='APPROVAL') {
+        color="Blue"
+        colorCode="#114FA6"
+    
     }
 
     // // Send notifications
@@ -34,7 +41,10 @@ def call (Map param) {
         if(disable_changelog==false) {
             summary +="\n *ChangeLogs* \n"
             summary +=changes
-        }   
+        }
+        if(param.status =='APPROVAL') {
+            summary +="\n *This changes will be deployed on Production. Wait for your Approval.* \n"
+        }
         if(slack_channel) {
             slackSend (channel:slack_channel, color: colorCode, message: summary)
         }else {
