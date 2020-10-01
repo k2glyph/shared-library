@@ -12,7 +12,7 @@ def call (Map param) {
     def colorCode = '#FF0000'
     def subject = "${param.status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'${param.title?:""}"
     if(param.status =='APPROVAL') {
-        subject = "Waiting for ${param.status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'${param.title?:""}"
+        subject = "*Waiting for ${param.status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'${param.title?:""}*"
     }
     def summary = "${subject} (${env.BUILD_URL})"
     def details = """<p>${param.status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
@@ -32,7 +32,7 @@ def call (Map param) {
         colorCode="#DCDCDC"
     } else if(param.status =='APPROVAL') {
         color="Blue"
-        colorCode="#114FA6"
+        colorCode="#2C6CDE"
     
     }
 
