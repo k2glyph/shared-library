@@ -27,6 +27,9 @@ def call (Map param) {
     } else if (param.status == 'SUCCESS') {
         color = 'GREEN'
         colorCode = '#00FF00'
+    }else if (param.status == 'UNSTABLE') {
+        color = 'PINK'
+        colorCode = '#FFC0CB'
     } else if(param.status =='ABORTED') {
         color="GRAY"
         colorCode="#DCDCDC"
