@@ -46,7 +46,12 @@ def call (Map param) {
             summary +=changes
         }
         if(param.status =='APPROVAL') {
-            summary +="\n *This changes will be deployed on Production. Waiting for your Approval.* \n"
+            if(param.summary==""){
+                summary +="\n *This changes will be deployed on Production. Waiting for your Approval.* \n"
+            }else{
+                summary+="\n*${param.summary}*\n"
+            }
+            
         }
         if(slack_channel) {
             slackSend (channel:slack_channel, color: colorCode, message: summary)
